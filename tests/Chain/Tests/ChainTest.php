@@ -12,7 +12,6 @@ use Symfony\Component\Process\ProcessBuilder;
 
 class ChainTest extends \PHPUnit_Framework_TestCase
 {
-
     public function processProvider()
     {
         return array(
@@ -34,7 +33,6 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
-
     /**
      * @dataProvider processProvider
      */
@@ -48,6 +46,21 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expected,
+            $chain->getProcess()->getCommandLine()
+        );
+    }
+
+    public function testAliases()
+    {
+        $chain = new Chain(new Process('cat'));
+        $chain->input('input.txt');
+        $chain->pipe('sort');
+        $chain->andDo('pwgen');
+        $chain->output('result.log');
+        $chain->errors('/dev/null');
+
+        $this->assertEquals(
+            'cat < input.txt | sort && pwgen > result.log 2> /dev/null',
             $chain->getProcess()->getCommandLine()
         );
     }

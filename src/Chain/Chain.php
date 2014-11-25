@@ -23,6 +23,36 @@ class Chain
         $this->add(null, $process);
     }
 
+    public function pipe($process)
+    {
+        $this->add('|', $process);
+    }
+
+    public function orDo($process)
+    {
+        $this->add('||', $process);
+    }
+
+    public function andDo($process)
+    {
+        $this->add('&&', $process);
+    }
+
+    public function input($process)
+    {
+        return $this->add('<', $process);
+    }
+
+    public function output($process)
+    {
+        return $this->add('>', $process);
+    }
+
+    public function errors($process)
+    {
+        $this->add('2>', $process);
+    }
+
     public function add($link, $process)
     {
         if (!in_array($link, $this->links)) {
