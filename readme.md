@@ -10,7 +10,7 @@ composer install
 
 ## Usage
 
-```
+```php
 use Chain\Chain;
 
 $chain = new Chain($process);
@@ -18,10 +18,27 @@ $chain = new Chain($process);
 $chain->add('|', $process);
 $chain->add('&&', $process);
 $chain->add('>', $output);
-// ....
+// see the Chain\Chain source code for all accepted links
 
 $chain->getProcess();
+```
 
+A more verbose API is also available:
+
+```php
+use Chain\Chain;
+
+$chain = new Chain(new Process('cat'));
+$chain
+    ->input('input.txt')
+    ->pipe('sort')
+    ->andDo('pwgen')
+    ->output('result.log')
+    ->errors('/dev/null');
+
+// see the Chain\Chain source code for all accepted links
+
+$chain->getProcess(); // cat < input.txt | sort && pwgen > result.log 2> /dev/null
 ```
 
 ## Test
@@ -38,5 +55,5 @@ Project structure inspired by
 
 ## License
 
-php-dmtx is released under the MIT License. See the bundled LICENSE file for
-details.
+phprocess-builder-chain is released under the MIT License. See the bundled
+LICENSE file for details.

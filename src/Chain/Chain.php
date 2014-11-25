@@ -23,6 +23,41 @@ class Chain
         $this->add(null, $process);
     }
 
+    public function pipe($process)
+    {
+        return $this->add('|', $process);
+    }
+
+    public function orDo($process)
+    {
+        return $this->add('||', $process);
+    }
+
+    public function andDo($process)
+    {
+        return $this->add('&&', $process);
+    }
+
+    public function afterDo($process)
+    {
+        return $this->add(';', $process);
+    }
+
+    public function input($process)
+    {
+        return $this->add('<', $process);
+    }
+
+    public function output($process)
+    {
+        return $this->add('>', $process);
+    }
+
+    public function errors($process)
+    {
+        return $this->add('2>', $process);
+    }
+
     public function add($link, $process)
     {
         if (!in_array($link, $this->links)) {
@@ -41,6 +76,8 @@ class Chain
 
         $process = $this->prepareProcess($process);
         $this->chain[] = is_string($process) ? $process : $process->getCommandLine();
+
+        return $this;
     }
 
     private function prepareProcess($process, $strict = false)
