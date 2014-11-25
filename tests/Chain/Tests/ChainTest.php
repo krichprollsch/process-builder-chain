@@ -58,9 +58,10 @@ class ChainTest extends \PHPUnit_Framework_TestCase
         $chain->andDo('pwgen');
         $chain->output('result.log');
         $chain->errors('/dev/null');
+        $chain->afterDo('ls');
 
         $this->assertEquals(
-            'cat < input.txt | sort && pwgen > result.log 2> /dev/null',
+            'cat < input.txt | sort && pwgen > result.log 2> /dev/null ; ls',
             $chain->getProcess()->getCommandLine()
         );
     }

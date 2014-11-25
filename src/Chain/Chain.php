@@ -38,6 +38,11 @@ class Chain
         return $this->add('&&', $process);
     }
 
+    public function afterDo($process)
+    {
+        return $this->add(';', $process);
+    }
+
     public function input($process)
     {
         return $this->add('<', $process);
