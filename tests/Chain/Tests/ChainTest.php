@@ -64,4 +64,20 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             $chain->getProcess()->getCommandLine()
         );
     }
+
+    public function testFluidInterface()
+    {
+        $chain = new Chain(new Process('cat'));
+        $chain
+            ->input('input.txt')
+            ->pipe('sort')
+            ->andDo('pwgen')
+            ->output('result.log')
+            ->errors('/dev/null');
+
+        $this->assertEquals(
+            'cat < input.txt | sort && pwgen > result.log 2> /dev/null',
+            $chain->getProcess()->getCommandLine()
+        );
+    }
 }

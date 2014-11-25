@@ -25,17 +25,17 @@ class Chain
 
     public function pipe($process)
     {
-        $this->add('|', $process);
+        return $this->add('|', $process);
     }
 
     public function orDo($process)
     {
-        $this->add('||', $process);
+        return $this->add('||', $process);
     }
 
     public function andDo($process)
     {
-        $this->add('&&', $process);
+        return $this->add('&&', $process);
     }
 
     public function input($process)
@@ -50,7 +50,7 @@ class Chain
 
     public function errors($process)
     {
-        $this->add('2>', $process);
+        return $this->add('2>', $process);
     }
 
     public function add($link, $process)
@@ -71,6 +71,8 @@ class Chain
 
         $process = $this->prepareProcess($process);
         $this->chain[] = is_string($process) ? $process : $process->getCommandLine();
+
+        return $this;
     }
 
     private function prepareProcess($process, $strict = false)
