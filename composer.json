@@ -1,7 +1,6 @@
 {
     "name": "ptachoire/process-builder-chain",
     "description": "Add ability to chain symfony processes",
-    "version": "1.0.0",
     "require": {
         "symfony/process": "~2.5"
     },
