@@ -23,6 +23,11 @@ class Chain
         $this->add(null, $process);
     }
 
+    public function append($process)
+    {
+      return $this->add('>>', $process);
+    }
+
     public function pipe($process)
     {
         return $this->add('|', $process);
